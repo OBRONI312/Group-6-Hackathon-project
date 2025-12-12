@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Silent Conditions & Smart Technology</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Theme variables */
+        :root{
+            --bg: #f4f7fb; /* soft light page background */
+            --text: #06293d; /* dark blue text */
+            --header-bg: #073b4c; /* deep teal-blue */
+            --header-sub: #cbe7f0;
+            --nav-bg: #0f62fe; /* vivid blue accent */
+            --accent: #0f62fe;
+            --card-bg: #ffffff;
+            --muted: #14485a;
+            --highlight-bg: #fff7d9; /* pale yellow highlight */
+            --highlight-border: #f59e0b;
+            --border: #e6eef6;
+            --shadow: rgba(6,41,61,0.06);
+            --footer-bg: #073b4c;
+        }
+        .dark-theme{
+            --bg: #071428;
+            --text: #e6f0f6;
+            --header-bg: #052032;
+            --header-sub: #9fcbe0;
+            --nav-bg: #0b5ed7;
+            --accent: #7fb3ff;
+            --card-bg: #0b1620;
+            --muted: #9fbfda;
+            --highlight-bg: #14202a;
+            --highlight-border: #f5a623;
+            --border: rgba(255,255,255,0.06);
+            --shadow: rgba(0,0,0,0.6);
+            --footer-bg: #052032;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            background: var(--bg);
+            color: var(--text);
+        }
+        header {
+            background: var(--header-bg);
+            color: #ffffff;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0 0 0.4rem 0;
+            font-size: 1.8rem;
+            color: #ffffff;
+        }
+        header p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--header-sub);
+        }
+        nav {
+            background: var(--nav-bg);
+            color: #ffffff;
+            padding: 0.7rem 1rem;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 0.6rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        nav a:hover {
+            text-decoration: underline;
+            opacity: 0.95;
+        }
+
+        /* theme toggle */
+        .theme-toggle{
+            position: relative;
+            overflow: hidden;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #fff;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform .18s ease, box-shadow .18s ease, background-color .2s ease;
+        }
+        .theme-toggle:focus{
+            outline: 3px solid rgba(255,255,255,0.18);
+            outline-offset: 2px;
+        }
+        .theme-toggle::after{
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 180%;
+            height: 180%;
+            background: rgba(255,255,255,0.12);
+            transform: translate(-50%,-50%) scale(0);
+            border-radius: 50%;
+            opacity: 0;
+            transition: transform .35s ease, opacity .25s ease;
+            pointer-events: none;
+        }
+        .theme-toggle.pulse{
+            transform: scale(0.98);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        .theme-toggle.pulse::after{
+            transform: translate(-50%,-50%) scale(1);
+            opacity: 1;
+        }
+
+        /* smooth theme transitions */
+        body, header, nav, main, section, .card, footer, .highlight {
+            transition: background-color .32s ease, color .32s ease, border-color .32s ease, box-shadow .32s ease;
+        }
+
+        /* reveal-on-load helpers */
+        .reveal {
+            opacity: 0;
+            transform: translateY(12px);
+            will-change: transform, opacity;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: transform .48s cubic-bezier(.2,.8,.2,1), opacity .36s ease;
+        }
+
+        /* subtle card hover */
+        .card {
+            transition: transform .22s ease, box-shadow .22s ease;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(6,41,61,0.10);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 1.5rem auto;
+            padding: 0 1rem 2rem;
+        }
+        section {
+            background: var(--card-bg);
+            margin-bottom: 1.5rem;
+            padding: 1.2rem 1.4rem;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        h2 {
+            margin-top: 0;
+            color: var(--text);
+        }
+        h3 {
+            margin-bottom: 0.3rem;
+            color: var(--accent);
+        }
+        ul {
+            padding-left: 1.1rem;
+            color: var(--muted);
+        }
+        li {
+            margin-bottom: 0.35rem;
+            color: var(--muted);
+        }
+        .highlight {
+            background: var(--highlight-bg);
+            border-left: 4px solid var(--highlight-border);
+            padding: 0.6rem 0.9rem;
+            margin: 0.6rem 0;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            padding: 0.9rem 1rem;
+            font-size: 0.95rem;
+            box-shadow: 0 3px 8px rgba(6, 41, 61, 0.04);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            padding: 1rem;
+            background: var(--footer-bg);
+            color: #ffffff;
+        }
+        .disclaimer {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+            nav a {
+                display: inline-block;
+                margin: 0.2rem 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Silent Health Conditions & Smart Technology</h1>
+    <p>How technology may spot early problems like kidney disease or vitamin deficiencies without traditional tests or constant monitoring.</p>
+</header>
+
+<nav>
+    <a href="#silent">Why Many Conditions Are “Silent”</a>
+    <a href="#kidney">Early Kidney Disease</a>
+    <a href="#vitamin">Vitamin Deficiencies</a>
+    <a href="#beyond">Beyond These Examples</a>
+    <a href="#limits">Limits & Ethics</a>
+
+    <button id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">Dark mode</button>
+</nav>
+
+<main>
+    <section id="silent" class="reveal">
+        <h2>Why Many Conditions Show No Early Symptoms</h2>
+        <p>
+            Many chronic conditions damage the body slowly, so people often feel normal until the disease is already advanced.
+        </p>
+        <div class="highlight">
+            Everyday life rarely stresses the body enough to reveal subtle damage, so routine tasks may feel normal even when organs like the kidneys or nerves are already under strain.
+        </div>
+        <ul>
+            <li>Organs such as kidneys and liver have large “reserve” capacity, so early damage does not cause obvious symptoms.</li>
+            <li>Vitamin deficiencies may start with mild fatigue or mood changes that are easy to ignore or blame on lifestyle.</li>
+            <li>Traditional testing (blood and urine tests, scans) is usually done only after people feel unwell or during rare check‑ups.</li>
+        </ul>
+    </section>
+
+    <section id="kidney">
+        <h2>Technology for Early Kidney Disease</h2>
+        <p>
+            Early‑stage kidney disease can be detected using newer, more accessible tools that do not always require standard lab blood tests.
+        </p>
+        <div class="cards">
+            <div class="card reveal">
+                <h3>Non‑invasive Urine Biosensors</h3>
+                <p>
+                    Researchers have created urine biosensors that detect markers like SDMA, which can signal kidney damage earlier than traditional creatinine tests and work with simple, portable devices.[web:65][web:68]
+                </p>
+                <ul>
+                    <li>Use a urine drop instead of a blood sample.</li>
+                    <li>Can be built into low‑cost, point‑of‑care devices for clinics or even home use.</li>
+                    <li>Could allow regular screening in schools, workplaces, or rural health camps.</li>
+                </ul>
+            </div>
+            <div class="card reveal">
+                <h3>Micro‑chip & Lab‑on‑a‑Chip Tools</h3>
+                <p>
+                    New micro‑chip platforms can estimate kidney function from tiny fluid samples on a portable cartridge, making testing faster and more accessible outside large laboratories.[web:61][web:62]
+                </p>
+                <ul>
+                    <li>Possible use in health camps, ambulances, or small clinics.</li>
+                    <li>Rapid results could help flag high‑risk people for full evaluation.</li>
+                </ul>
+            </div>
+            <div class="card reveal">
+                <h3>AI Risk Scoring from Routine Data</h3>
+                <p>
+                    Some systems use machine‑learning models on existing clinical data (like age, blood pressure, and basic lab results) to predict which patients are at high risk of kidney failure even before they feel unwell.[web:64]
+                </p>
+                <ul>
+                    <li>Helps doctors focus attention on patients who most need follow‑up.</li>
+                    <li>Can be integrated into hospital or clinic software as a background safety net.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="vitamin" class="reveal">
+        <h2>Technology for Vitamin Deficiencies</h2>
+        <p>
+            Some projects use cameras and AI to spot visible clues of vitamin deficiency from normal photos instead of blood tests.
+        </p>
+        <div class="cards">
+            <div class="card reveal">
+                <h3>Image‑Based Screening Apps</h3>
+                <p>
+                    Research groups have built mobile and web applications that analyze photos of eyes, lips, tongue, and nails to estimate possible vitamin deficiencies using image processing and machine‑learning models.[web:66][web:69]
+                </p>
+                <ul>
+                    <li>Users upload photos taken with an ordinary phone camera.</li>
+                    <li>Algorithms look for patterns such as color changes, texture, or spots linked with specific deficiencies.</li>
+                    <li>The app suggests likely deficiencies and basic dietary advice, then encourages proper medical testing.</li>
+                </ul>
+            </div>
+            <div class="card reveal">
+                <h3>Benefits Over Traditional Testing</h3>
+                <p>
+                    These tools are non‑invasive, low‑cost, and easy to scale to large populations, making them useful for early community‑level screening.[web:66][web:69]
+                </p>
+                <ul>
+                    <li>No needles or laboratory visit needed for initial screening.</li>
+                    <li>Can reach people in remote or low‑resource settings through smartphones.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="beyond" class="reveal">
+        <h2>Beyond Kidney Disease and Vitamins</h2>
+        <p>
+            Similar ideas are being used for other “silent” disorders, where subtle body signals are captured and analyzed by technology.
+        </p>
+        <div class="cards">
+            <div class="card reveal">
+                <h3>Wearables for Early Disease Detection</h3>
+                <p>
+                    Smartwatches and wearable patches contain sensors for heart rate, movement, temperature, and oxygen levels, which can feed machine‑learning models that detect abnormal patterns before a person feels ill.[web:67][web:70]
+                </p>
+                <ul>
+                    <li>Changes in sleep, movement, or heart rhythm can hint at neurological or cardiac problems early.</li>
+                    <li>Alerts can prompt users to seek medical evaluation before major events such as stroke or heart failure.</li>
+                </ul>
+            </div>
+            <div class="card reveal">
+                <h3>Breath, Voice, and Other Signals</h3>
+                <p>
+                    Experimental sensors can analyze volatile molecules in breath or small changes in voice and movement to detect early neurological or metabolic disease before classic symptoms appear.[web:67][web:70]
+                </p>
+                <ul>
+                    <li>Breath sensors may help screen for early neurological or metabolic disorders.</li>
+                    <li>Voice and motion analysis apps can run on a phone in the background during normal use.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="limits" class="reveal">
+        <h2>Limits, Risks, and Ethical Issues</h2>
+        <p>
+            Although these tools reduce dependence on traditional lab tests, they are not perfect and must be used carefully.
+        </p>
+        <div class="highlight">
+            These technologies are best seen as early‑warning and triage tools that guide people toward proper clinical testing, not as replacements for doctors or definitive diagnostic laboratory tests.
+        </div>
+        <ul>
+            <li>False alarms can cause anxiety, while missed signals may create false reassurance.</li>
+            <li>AI models may work poorly in groups that were under‑represented in the training data, leading to bias.</li>
+            <li>Continuous collection of health signals creates privacy and data‑security concerns that require strict safeguards.</li>
+        </ul>
+        <p class="disclaimer">
+            This website is for educational purposes only and does not provide medical advice, diagnosis, or treatment. For any health concerns, consult a qualified healthcare professional.
+        </p>
+    </section>
+</main>
+
+<footer>
+    &copy; Hackathon | Group 6
+</footer>
+
+<script>
+    (function(){
+        const KEY = 'theme';
+        const btn = document.getElementById('theme-toggle');
+        const apply = (t) => {
+            if(t === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+                btn.textContent = 'Light mode';
+                btn.setAttribute('aria-pressed','true');
+            } else {
+                document.documentElement.classList.remove('dark-theme');
+                btn.textContent = 'Dark mode';
+                btn.setAttribute('aria-pressed','false');
+            }
+        };
+
+        // initial: saved preference or system preference
+        const saved = localStorage.getItem(KEY);
+        if(saved){
+            apply(saved);
+        } else {
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            apply(prefersDark ? 'dark' : 'light');
+        }
+
+        btn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark-theme');
+            const mode = isDark ? 'dark' : 'light';
+            apply(mode);
+            localStorage.setItem(KEY, mode);
+
+            // click animation: brief pulse
+            btn.classList.add('pulse');
+            setTimeout(() => btn.classList.remove('pulse'), 320);
+        });
+
+        // allow keyboard activation (Enter/Space) when focused
+        btn.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                btn.click();
+            }
+        });
+    })();
+</script>
+
+<script>
+    // reveal runner: progressively show elements with .reveal
+    (function(){
+        const reveals = Array.from(document.querySelectorAll('.reveal'));
+        if(!reveals.length) return;
+        let i = 0;
+        const step = () => {
+            if(i >= reveals.length) return;
+            const el = reveals[i++];
+            requestAnimationFrame(() => el.classList.add('visible'));
+            setTimeout(step, 80);
+        };
+        // run after a short delay so CSS is ready
+        window.addEventListener('load', () => setTimeout(step, 160));
+    })();
+</script>
+
+</body>
+</html>
