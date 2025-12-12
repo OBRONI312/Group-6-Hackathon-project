@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Resources — Silent Conditions & Smart Technology</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    :root{
+      --gradient-header: linear-gradient(135deg,#6dd5fa 0%,#8b6cff 50%,#073b4c 100%);
+      --gradient-nav: linear-gradient(90deg,#7b61ff 0%,#0f62fe 100%);
+      --bg-gradient: linear-gradient(180deg,#f8fbff 0%, #e9f2ff 100%);
+      --card-bg: #ffffff;
+      --card-grad-start: #ffffff;
+      --card-grad-end: #f6fbff;
+      --text: #06293d;
+      --muted: #14485a;
+      --shadow: rgba(6,41,61,0.06);
+      --border: #e6eef6;
+      --header-sub: #cbe7f0;
+    }
+    .dark-theme{
+      --bg-gradient: linear-gradient(180deg,#071428 0%, #0b2233 100%);
+      --card-bg: #0b1620;
+      --card-grad-start: #071428;
+      --card-grad-end: #091826;
+      --text: #e6f0f6;
+      --muted: #9fbfda;
+      --shadow: rgba(0,0,0,0.6);
+      --border: rgba(255,255,255,0.06);
+      --gradient-header: linear-gradient(135deg,#052032 0%,#071428 100%);
+      --gradient-nav: linear-gradient(90deg,#073b4c 0%,#0b5ed7 100%);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;background:var(--bg-gradient);color:var(--text);line-height:1.5;transition:background 560ms ease,color 560ms ease}
+    header{background:var(--gradient-header);color:white;padding:1.4rem;text-align:center}
+    header h1{margin:0;font-size:1.6rem}
+    nav{display:flex;gap:0.6rem;justify-content:center;padding:.7rem;background:var(--gradient-nav);}
+    nav a{color:#fff;text-decoration:none;font-weight:600}
+    main{max-width:1000px;margin:1.5rem auto;padding:0 1rem}
+    section{background:linear-gradient(180deg,var(--card-grad-start),var(--card-grad-end));border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1rem;box-shadow:0 8px 20px var(--shadow)}
+    h2{margin-top:0}
+    ul{padding-left:1.1rem;color:var(--muted)}
+    footer{text-align:center;padding:1rem;font-size:.85rem;color:#fff;background:linear-gradient(180deg,#073b4c 0%,#041726 100%)}
+    a.button{display:inline-block;background:linear-gradient(90deg,#8b61ff,#0f62fe);color:#fff;padding:.5rem .75rem;border-radius:6px;text-decoration:none}
+    /* theme toggle button */
+    .theme-toggle{ background:transparent; color:#fff; border:1px solid #0c4369; padding:.3rem .6rem; border-radius:6px; cursor:pointer; font-weight:600; transition:transform .18s ease, box-shadow .18s ease, background-color .25s ease, opacity .18s ease }
+    .theme-toggle:hover{ transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 24px rgba(12,67,105,0.18); }
+    .theme-toggle:active{ transform: translateY(-1px) scale(0.99); }
+    .theme-toggle.pulse{ animation: toggle-pulse 420ms ease both }
+    @keyframes toggle-pulse{ 0%{ transform: scale(1); box-shadow: 0 6px 16px rgba(12,67,105,0.12) } 50%{ transform: scale(1.09); box-shadow: 0 18px 36px rgba(12,67,105,0.18) } 100%{ transform: scale(1); box-shadow: 0 8px 20px rgba(12,67,105,0.14) } }
+    @media (max-width:600px){nav{flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Silent Health Conditions & Smart Technology</h1>
+    <p style="margin:.4rem 0 0 0;color:rgba(255,255,255,.9);font-size:.95rem">Further reading, tools, and contact</p>
+  </header>
+  <nav>
+    <a href="Hackathon Website.html">Home</a>
+    <a href="#resources">Resources</a>
+    <a href="#tools">Tools</a>
+    <a href="#contact">Contact</a>
+    <a class="button" href="resources.html" aria-label="Open resources page">Resources Page</a>
+    <button id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">Dark mode</button>
+  </nav>
+  <main>
+    <section id="resources">
+      <h2>Further Reading & Papers</h2>
+      <p>Here are curated topics and papers useful for exploring non‑invasive screening, biosensors, and AI risk scoring.</p>
+      <ul>
+        <li>Non‑invasive biosensing methods — surveys and technical primers.</li>
+        <li>Edge & mobile ML for health — model compression, privacy, and deployment.</li>
+        <li>Ethics & fairness in health AI — approaches to mitigate bias and preserve privacy.</li>
+      </ul>
+    </section>
+
+    <section id="tools">
+      <h2>Open Tools & Demos</h2>
+      <p>Example starter projects and libraries you can explore or reuse:</p>
+      <ul>
+        <li>Lightweight ML toolkits for mobile and web (TensorFlow Lite, ONNX Runtime Web).</li>
+        <li>Simple biosensor prototype repositories and lab‑on‑a‑chip demos.</li>
+      </ul>
+      <p><a class="button" href="Hackathon Website.html">Back to Home</a></p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact & Credits</h2>
+      <p>If you want to adapt this site or reuse parts of the content, contact the Hackathon group at: <strong>group6@example.com</strong></p>
+      <p class="disclaimer" style="color:var(--muted);font-size:.9rem">This site is educational and not a substitute for professional medical advice.</p>
+    </section>
+  </main>
+  <footer>&copy; Hackathon | Group 6</footer>
+  <script>
+    (function(){
+      const KEY = 'hc_theme';
+      const btn = document.getElementById('theme-toggle');
+      const apply = (mode) => {
+        if(mode === 'dark'){
+          document.documentElement.classList.add('dark-theme');
+          btn.textContent = 'Light mode';
+          btn.setAttribute('aria-pressed','true');
+        } else {
+          document.documentElement.classList.remove('dark-theme');
+          btn.textContent = 'Dark mode';
+          btn.setAttribute('aria-pressed','false');
+        }
+      };
+      const saved = localStorage.getItem(KEY);
+      if(saved) apply(saved);
+      else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        apply(prefersDark ? 'dark' : 'light');
+      }
+      btn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark-theme');
+        const mode = isDark ? 'dark' : 'light';
+        apply(mode);
+        localStorage.setItem(KEY, mode);
+        // brief pulse animation for user feedback
+        btn.classList.add('pulse');
+        setTimeout(() => btn.classList.remove('pulse'), 420);
+      });
+      btn.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); } });
+
+      // Smooth scroll for in-page nav links
+      document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function(e){
+          const href = this.getAttribute('href');
+          if(!href || href.indexOf('#') !== 0) return; // ignore external links
+          const id = href.slice(1);
+          const target = document.getElementById(id);
+          if(target){
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // update URL hash without jumping
+            history.replaceState(null, '', '#' + id);
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
